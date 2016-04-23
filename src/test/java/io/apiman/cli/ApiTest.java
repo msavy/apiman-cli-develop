@@ -16,13 +16,14 @@
 
 package io.apiman.cli;
 
-import io.apiman.cli.util.AuthUtil;
 import io.apiman.cli.common.BaseTest;
 import io.apiman.cli.common.IntegrationTest;
+import io.apiman.cli.util.AuthUtil;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
+import retrofit.http.HEAD;
 
 /**
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
