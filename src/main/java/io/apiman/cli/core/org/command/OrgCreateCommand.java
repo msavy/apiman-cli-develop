@@ -16,25 +16,27 @@
 
 package io.apiman.cli.core.org.command;
 
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 import io.apiman.cli.core.common.command.ModelCreateCommand;
 import io.apiman.cli.core.org.OrgApi;
 import io.apiman.cli.core.org.OrgMixin;
-import io.apiman.cli.exception.CommandException;
 import io.apiman.cli.core.org.model.Org;
-import org.kohsuke.args4j.Option;
+import io.apiman.cli.exception.CommandException;
 
 /**
  * Create an organisation.
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+@Parameters(commandDescription = "Create organisation")
 public class OrgCreateCommand extends ModelCreateCommand<Org, OrgApi>
         implements OrgMixin {
 
-    @Option(name = "--name", aliases = {"-n"}, usage = "Name", required = true)
+    @Parameter(names = { "--name", "-n"}, description = "Name", required = true)
     private String name;
 
-    @Option(name = "--description", aliases = {"-d"}, usage = "Description")
+    @Parameter(names = { "--description", "-d"}, description = "Description")
     private String description;
 
     @Override

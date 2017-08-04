@@ -16,21 +16,59 @@
 
 package io.apiman.cli;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
+import com.beust.jcommander.Parameters;
+import com.google.common.collect.Lists;
 import io.apiman.cli.command.AbstractCommand;
 import io.apiman.cli.command.Command;
+import io.apiman.cli.exception.ExitWithCodeException;
+import io.apiman.cli.util.LogUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.util.List;
 import java.util.Map;
-
-import com.google.common.collect.Lists;
 
 /**
  * The main class; the root of all Commands.
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+@Parameters(commandDescription = "Apiman CLI")
 public class Cli extends AbstractCommand {
+    private static final Logger LOGGER = LogManager.getLogger(Cli.class);
+
+    @Override
+    public void run(List<String> args, JCommander jc) {
+        jc.setAcceptUnknownOptions(false);
+        jc.setProgramName("apiman-cli");
+        jc.addObject(this);
+        build(jc);
+        try {
+            jc.parse(args.toArray(new String[]{}));
+            super.run(args, jc);
+        } catch (ParameterException e) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug(e);
+            } else {
+                LOGGER.error(e.getMessage());
+            }
+            printUsage(jc, false);
+        } catch (ExitWithCodeException ec) {
+            // print the message and exit with the given code
+            LogUtil.OUTPUT.error(ec.getMessage());
+            if (ec.isPrintUsage()) {
+                printUsage(jc, ec.getExitCode());
+            } else {
+                System.exit(ec.getExitCode());
+            }
+        }
+    }
+
     public static void main(String... args) {
-        new Cli().run(Lists.newArrayList(args));
+        Cli cli = new Cli();
+        cli.run(Lists.newArrayList(args), new JCommander());
     }
 
     @Override

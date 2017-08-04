@@ -16,6 +16,7 @@
 
 package io.apiman.cli.core.org.command;
 
+import com.beust.jcommander.Parameters;
 import io.apiman.cli.command.AbstractCommand;
 import io.apiman.cli.command.Command;
 
@@ -26,6 +27,7 @@ import java.util.Map;
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+@Parameters(commandDescription = "Manage organisations")
 public class OrgCommand extends AbstractCommand {
     @Override
     protected void populateCommands(Map<String, Class<? extends Command>> commandMap) {

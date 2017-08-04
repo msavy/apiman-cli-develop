@@ -16,18 +16,17 @@
 
 package io.apiman.cli.core.api.command;
 
-import com.google.common.collect.Lists;
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 import com.google.common.io.CharStreams;
 import io.apiman.cli.core.api.ApiMixin;
 import io.apiman.cli.core.api.VersionAgnosticApi;
-import io.apiman.cli.core.api.model.*;
 import io.apiman.cli.exception.CommandException;
 import io.apiman.cli.exception.ExitWithCodeException;
 import io.apiman.cli.management.ManagementApiUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
 import retrofit.mime.TypedString;
 
 import java.io.IOException;
@@ -42,22 +41,23 @@ import java.text.MessageFormat;
  *
  * @author Raleigh Pickard {@literal <raleigh.pickard@gmail.com>}
  */
+@Parameters(commandDescription = "Create an API using declarative definition")
 public class ApiDefinitionCommand extends AbstractApiCommand implements ApiMixin {
     private static final Logger LOGGER = LogManager.getLogger(ApiDefinitionCommand.class);
 
-    @Option(name = "--name", aliases = {"-n"}, usage = "API name", required = true)
+    @Parameter(names = { "--name", "-n"}, description = "API name", required = true)
     private String name;
 
-    @Option(name = "--version", aliases = {"-v"}, usage = "API version", required = true)
+    @Parameter(names = { "--version", "-v"}, description = "API version", required = true)
     private String version;
 
-    @Option(name = "--definitionStdIn", aliases = {"-i"}, usage = "Read API definition from STDIN", forbids = "-f")
+    @Parameter(names = { "--definitionStdIn", "-i"}, description = "Read API definition from STDIN") // , forbids = "-f"
     private boolean definitionStdIn;
 
-    @Option(name = "--definitionFile", aliases = {"-f"}, usage = "API definition configuration file", forbids = "-i")
+    @Parameter(names = { "--definitionFile", "-f"}, description = "API definition configuration file") // , forbids = "-i")
     private Path definitionFile;
 
-    @Option(name = "--definitionType", aliases = {"-t"}, usage = "Endpoint", required = true)
+    @Parameter(names = { "--definitionType", "-t"}, description = "Endpoint", required = true)
     private String definitionType = "application/json";
 
     @Override
@@ -66,7 +66,7 @@ public class ApiDefinitionCommand extends AbstractApiCommand implements ApiMixin
     }
 
     @Override
-    public void performAction(CmdLineParser parser) throws CommandException {
+    public void performAction(JCommander parser) throws CommandException {
         if (!definitionStdIn && null == definitionFile) {
             throw new ExitWithCodeException(1, "API definition must be provided", true);
         }
@@ -83,6 +83,6 @@ public class ApiDefinitionCommand extends AbstractApiCommand implements ApiMixin
         LOGGER.debug("Adding definition to API '{}' with contents: {}", this::getModelName, () -> definition);
 
         ManagementApiUtil.invokeAndCheckResponse(() ->
-                buildServerApiClient(VersionAgnosticApi.class, serverVersion).setDefinition(orgName, name, version, definitionType, new TypedString(definition)));
+                getManagerConfig().buildServerApiClient(VersionAgnosticApi.class, serverVersion).setDefinition(orgName, name, version, definitionType, new TypedString(definition)));
     }
 }

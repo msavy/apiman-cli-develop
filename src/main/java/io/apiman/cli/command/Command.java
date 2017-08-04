@@ -16,8 +16,8 @@
 
 package io.apiman.cli.command;
 
+import com.beust.jcommander.JCommander;
 import io.apiman.cli.exception.CommandException;
-import org.kohsuke.args4j.CmdLineParser;
 
 import java.util.List;
 
@@ -31,12 +31,14 @@ public interface Command {
 
     String getCommandName();
 
+    void build(JCommander jcommander);
+
     /**
      * Parse the given arguments and perform a command.
      *
      * @param args the arguments to parse
      */
-    void run(List<String> args);
+    void run(List<String> args, JCommander jcommander);
 
     /**
      * @return a concatenation of the parent's command name and this command name
@@ -49,5 +51,5 @@ public interface Command {
      *
      * @param parser the command line parser
      */
-    void performAction(CmdLineParser parser) throws CommandException;
+    void performAction(JCommander parser) throws CommandException;
 }

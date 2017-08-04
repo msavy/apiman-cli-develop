@@ -16,17 +16,18 @@
 
 package io.apiman.cli.core.api.command;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 import com.google.common.io.CharStreams;
 import io.apiman.cli.core.api.ApiMixin;
-import io.apiman.cli.core.api.model.ApiPolicy;
 import io.apiman.cli.core.api.VersionAgnosticApi;
+import io.apiman.cli.core.api.model.ApiPolicy;
 import io.apiman.cli.exception.CommandException;
 import io.apiman.cli.exception.ExitWithCodeException;
 import io.apiman.cli.management.ManagementApiUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,22 +41,23 @@ import java.text.MessageFormat;
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+@Parameters(commandDescription = "Add policy to API")
 public class ApiPolicyAddCommand extends AbstractApiCommand implements ApiMixin {
     private static final Logger LOGGER = LogManager.getLogger(ApiPolicyAddCommand.class);
 
-    @Option(name = "--name", aliases = {"-n"}, usage = "API name", required = true)
+    @Parameter(names = { "--name", "-n" }, description = "API name", required = true)
     private String name;
 
-    @Option(name = "--version", aliases = {"-v"}, usage = "API version", required = true)
+    @Parameter(names = { "--version", "-v" }, description = "API version", required = true)
     private String version;
 
-    @Option(name = "--policyName", aliases = {"-p"}, usage = "Policy name", required = true)
+    @Parameter(names = { "--policyName", "-p" }, description = "Policy name", required = true)
     private String policyName;
 
-    @Option(name = "--configStdIn", aliases = {"-i"}, usage = "Read policy configuration from STDIN", forbids = "-f")
+    @Parameter(names = { "--configStdIn", "-i" }, description = "Read policy configuration from STDIN") // TODO forbids -f
     private boolean configStdIn;
 
-    @Option(name = "--configFile", aliases = {"-f"}, usage = "Policy configuration file", forbids = "-i")
+    @Parameter(names = { "--configFile", "-f" }, description = "Policy configuration file") // TODO forbids i
     private Path configFile;
 
     @Override
@@ -64,7 +66,7 @@ public class ApiPolicyAddCommand extends AbstractApiCommand implements ApiMixin 
     }
 
     @Override
-    public void performAction(CmdLineParser parser) throws CommandException {
+    public void performAction(JCommander parser) throws CommandException {
         if (!configStdIn && null == configFile) {
             throw new ExitWithCodeException(1, "Policy configuration must be provided", true);
         }
@@ -85,6 +87,6 @@ public class ApiPolicyAddCommand extends AbstractApiCommand implements ApiMixin 
         apiPolicy.setDefinitionId(policyName);
 
         ManagementApiUtil.invokeAndCheckResponse(() ->
-                buildServerApiClient(VersionAgnosticApi.class, serverVersion).addPolicy(orgName, name, version, apiPolicy));
+                getManagerConfig().buildServerApiClient(VersionAgnosticApi.class, serverVersion).addPolicy(orgName, name, version, apiPolicy));
     }
 }

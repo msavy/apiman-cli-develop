@@ -16,6 +16,7 @@
 
 package io.apiman.cli.core.gateway.command;
 
+import com.beust.jcommander.Parameters;
 import io.apiman.cli.core.common.command.ModelListCommand;
 import io.apiman.cli.core.gateway.GatewayApi;
 import io.apiman.cli.core.gateway.GatewayMixin;
@@ -26,6 +27,7 @@ import io.apiman.cli.core.gateway.model.Gateway;
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+@Parameters(commandDescription = "List gateways")
 public class GatewayListCommand extends ModelListCommand<Gateway, GatewayApi>
         implements GatewayMixin {
 }

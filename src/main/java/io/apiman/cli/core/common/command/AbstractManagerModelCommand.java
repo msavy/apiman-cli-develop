@@ -16,13 +16,21 @@
 
 package io.apiman.cli.core.common.command;
 
+import com.beust.jcommander.ParametersDelegate;
 import io.apiman.cli.command.AbstractFinalCommand;
+import io.apiman.cli.command.ManagerCommon;
 
 /**
  * Common model CRUD functionality.
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
-public abstract class AbstractModelCommand<M, A> extends AbstractFinalCommand
+public abstract class AbstractManagerModelCommand<M, A> extends AbstractFinalCommand
         implements ModelAction<M, A> {
+    @ParametersDelegate
+    private ManagerCommon managerConfig = new ManagerCommon();
+
+    public ManagerCommon getManagerConfig() {
+        return managerConfig;
+    }
 }

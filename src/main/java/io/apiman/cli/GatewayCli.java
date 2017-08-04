@@ -16,23 +16,20 @@
 
 package io.apiman.cli;
 
+import com.beust.jcommander.Parameters;
 import io.apiman.cli.command.AbstractCommand;
 import io.apiman.cli.command.Command;
 import io.apiman.cli.core.declarative.command.GatewayApplyCommand;
 
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-
 /**
  * The main class; the root of all Commands.
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+@Parameters(commandDescription = "Interact with an Apiman Gateway directly")
 public class GatewayCli extends AbstractCommand {
-    public static void main(String... args) {
-        new GatewayCli().run(Lists.newArrayList(args));
-    }
 
     @Override
     protected void populateCommands(Map<String, Class<? extends Command>> commandMap) {

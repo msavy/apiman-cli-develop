@@ -16,14 +16,16 @@
 
 package io.apiman.cli.core.declarative.command;
 
-import static java.util.Optional.ofNullable;
-
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
 import io.apiman.cli.command.AbstractFinalCommand;
 import io.apiman.cli.core.declarative.model.BaseDeclaration;
 import io.apiman.cli.exception.CommandException;
 import io.apiman.cli.util.BeanUtil;
 import io.apiman.cli.util.DeclarativeUtil;
 import io.apiman.cli.util.MappingUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,10 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
+import static java.util.Optional.ofNullable;
 
 /**
  * Applies an API environment declaration.
@@ -48,13 +47,13 @@ public abstract class AbstractApplyCommand extends AbstractFinalCommand {
     private static final Logger LOGGER = LogManager.getLogger(AbstractApplyCommand.class);
     protected static final String JSON_EXTENSION = ".json";
 
-    @Option(name = "--declarationFile", aliases = {"-f"}, usage = "Declaration file")
+    @Parameter(names = {"--declarationFile", "-f"}, description = "Declaration file")
     protected Path declarationFile;
 
-    @Option(name = "-P", usage = "Set property (key=value)")
+    @Parameter(names = "-P", description = "Set property (key=value)")
     protected List<String> properties;
 
-    @Option(name = "--propertiesFile", usage = "Properties file")
+    @Parameter(names = "--propertiesFile", description = "Properties file")
     protected List<Path> propertiesFiles;
 
     @Override
@@ -63,7 +62,7 @@ public abstract class AbstractApplyCommand extends AbstractFinalCommand {
     }
 
     @Override
-    public void performAction(CmdLineParser parser) throws CommandException {
+    public void performAction(JCommander parser) throws CommandException {
         try {
             applyDeclaration(loadDeclaration());
         } catch (Exception e) {
@@ -127,9 +126,5 @@ public abstract class AbstractApplyCommand extends AbstractFinalCommand {
 
     public void setPropertiesFiles(List<Path> propertiesFiles) {
         this.propertiesFiles = propertiesFiles;
-    }
-
-    public void setServerAddress(String serverAddress) {
-        this.serverAddress = serverAddress;
     }
 }

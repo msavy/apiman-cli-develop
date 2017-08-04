@@ -16,16 +16,16 @@
 
 package io.apiman.cli.core.gateway.command;
 
+import com.beust.jcommander.Parameter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.apiman.cli.core.common.command.ModelCreateCommand;
 import io.apiman.cli.core.gateway.GatewayApi;
 import io.apiman.cli.core.gateway.GatewayMixin;
-import io.apiman.cli.exception.CommandException;
 import io.apiman.cli.core.gateway.model.Gateway;
 import io.apiman.cli.core.gateway.model.GatewayConfig;
 import io.apiman.cli.core.gateway.model.GatewayType;
+import io.apiman.cli.exception.CommandException;
 import io.apiman.cli.util.MappingUtil;
-import org.kohsuke.args4j.Option;
 
 /**
  * Shared functionality for commands requiring a {@link Gateway}.
@@ -35,19 +35,19 @@ import org.kohsuke.args4j.Option;
 public abstract class AbstractGatewayCreateCommand extends ModelCreateCommand<Gateway, GatewayApi>
         implements GatewayMixin {
 
-    @Option(name = "--description", aliases = {"-d"}, usage = "Description")
+    @Parameter(names = { "--description", "-d"}, description = "Description")
     private String description;
 
-    @Option(name = "--endpoint", aliases = {"-e"}, usage = "Endpoint", required = true)
+    @Parameter(names = { "--endpoint", "-e"}, description = "Endpoint", required = true)
     private String endpoint;
 
-    @Option(name = "--username", aliases = {"-u"}, usage = "Username")
+    @Parameter(names = { "--username", "-u"}, description = "Username")
     private String username;
 
-    @Option(name = "--password", aliases = {"-p"}, usage = "Password")
+    @Parameter(names = { "--password", "-p"}, description = "Password")
     private String password;
 
-    @Option(name = "--type", aliases = {"-t"}, usage = "type")
+    @Parameter(names = { "--type", "-t"}, description = "type")
     private GatewayType type = GatewayType.REST;
 
     @Override

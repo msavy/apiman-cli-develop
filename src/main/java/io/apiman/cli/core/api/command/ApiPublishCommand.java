@@ -16,14 +16,15 @@
 
 package io.apiman.cli.core.api.command;
 
-import io.apiman.cli.core.common.util.ServerActionUtil;
-import io.apiman.cli.exception.CommandException;
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 import io.apiman.cli.core.api.ApiMixin;
 import io.apiman.cli.core.common.ActionApi;
+import io.apiman.cli.core.common.util.ServerActionUtil;
+import io.apiman.cli.exception.CommandException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
 
 import java.text.MessageFormat;
 
@@ -32,13 +33,14 @@ import java.text.MessageFormat;
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+@Parameters(commandDescription = "Publish API")
 public class ApiPublishCommand extends AbstractApiCommand implements ApiMixin {
     private static final Logger LOGGER = LogManager.getLogger(ApiPublishCommand.class);
 
-    @Option(name = "--name", aliases = {"-n"}, usage = "API name", required = true)
+    @Parameter(names = { "--name", "-n"}, description = "API name", required = true)
     private String name;
 
-    @Option(name = "--version", aliases = {"-v"}, usage = "API version", required = true)
+    @Parameter(names = { "--version", "-v"}, description = "API version", required = true)
     private String version;
 
     @Override
@@ -47,9 +49,9 @@ public class ApiPublishCommand extends AbstractApiCommand implements ApiMixin {
     }
 
     @Override
-    public void performAction(CmdLineParser parser) throws CommandException {
+    public void performAction(JCommander parser) throws CommandException {
         LOGGER.debug("Publishing {}", this::getModelName);
-        ServerActionUtil.publishApi(orgName, name, version, serverVersion, buildServerApiClient(ActionApi.class));
+        ServerActionUtil.publishApi(orgName, name, version, serverVersion, getManagerConfig().buildServerApiClient(ActionApi.class));
     }
 
 }

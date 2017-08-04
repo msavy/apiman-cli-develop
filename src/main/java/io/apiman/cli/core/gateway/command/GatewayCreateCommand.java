@@ -16,16 +16,18 @@
 
 package io.apiman.cli.core.gateway.command;
 
-import org.kohsuke.args4j.Option;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 
 /**
  * Create a gateway.
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+@Parameters(commandDescription = "Create a new gateway")
 public class GatewayCreateCommand extends AbstractGatewayCreateCommand {
 
-    @Option(name = "--name", aliases = {"-n"}, usage = "Name", required = true)
+    @Parameter(names = {"--name", "-n"}, description = "Name", required = true)
     private String name;
 
     @Override

@@ -16,12 +16,13 @@
 
 package io.apiman.cli.core.plugin.command;
 
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 import io.apiman.cli.core.common.command.ModelCreateCommand;
-import io.apiman.cli.exception.CommandException;
 import io.apiman.cli.core.plugin.PluginApi;
 import io.apiman.cli.core.plugin.PluginMixin;
 import io.apiman.cli.core.plugin.model.Plugin;
-import org.kohsuke.args4j.Option;
+import io.apiman.cli.exception.CommandException;
 
 import java.text.MessageFormat;
 
@@ -30,19 +31,20 @@ import java.text.MessageFormat;
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+@Parameters(commandDescription = "Add a plugin")
 public class PluginAddCommand extends ModelCreateCommand<Plugin, PluginApi>
         implements PluginMixin {
 
-    @Option(name = "--groupId", aliases = {"-g"}, usage = "Group ID", required = true)
+    @Parameter(names = {"--groupId", "-g"}, description = "Group ID", required = true)
     private String groupId;
 
-    @Option(name = "--artifactId", aliases = {"-a"}, usage = "Artifact ID", required = true)
+    @Parameter(names = {"--artifactId", "-a"}, description = "Artifact ID", required = true)
     private String artifactId;
 
-    @Option(name = "--version", aliases = {"-v"}, usage = "Version", required = true)
+    @Parameter(names = {"--version", "-v"}, description = "Version", required = true)
     private String version;
 
-    @Option(name = "--classifier", aliases = {"-c"}, usage = "Classifier")
+    @Parameter(names = {"--classifier", "-c"}, description = "Classifier")
     private String classifier;
 
     @Override

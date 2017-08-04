@@ -16,15 +16,16 @@
 
 package io.apiman.cli.core.api.command;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameters;
 import io.apiman.cli.core.api.ApiMixin;
-import io.apiman.cli.core.api.model.Api;
 import io.apiman.cli.core.api.VersionAgnosticApi;
+import io.apiman.cli.core.api.model.Api;
 import io.apiman.cli.exception.CommandException;
 import io.apiman.cli.util.LogUtil;
 import io.apiman.cli.util.MappingUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.kohsuke.args4j.CmdLineParser;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -34,6 +35,7 @@ import java.util.List;
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+@Parameters(commandDescription = "List APIs")
 public class ApiListCommand extends AbstractApiCommand implements ApiMixin {
     private static final Logger LOGGER = LogManager.getLogger(ApiListCommand.class);
 
@@ -43,10 +45,10 @@ public class ApiListCommand extends AbstractApiCommand implements ApiMixin {
     }
 
     @Override
-    public void performAction(CmdLineParser parser) throws CommandException {
+    public void performAction(JCommander parser) throws CommandException {
         LOGGER.debug("Listing {}", this::getModelName);
 
-        final List<Api> apis = buildServerApiClient(VersionAgnosticApi.class, serverVersion).list(orgName);
+        final List<Api> apis = getManagerConfig().buildServerApiClient(VersionAgnosticApi.class, serverVersion).list(orgName);
         LogUtil.OUTPUT.info(MappingUtil.safeWriteValueAsJson(apis));
     }
 }

@@ -16,18 +16,19 @@
 
 package io.apiman.cli.core.api.command;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 import com.google.common.collect.Lists;
 import io.apiman.cli.core.api.ApiMixin;
+import io.apiman.cli.core.api.VersionAgnosticApi;
 import io.apiman.cli.core.api.model.Api;
 import io.apiman.cli.core.api.model.ApiConfig;
 import io.apiman.cli.core.api.model.ApiGateway;
-import io.apiman.cli.core.api.VersionAgnosticApi;
 import io.apiman.cli.exception.CommandException;
 import io.apiman.cli.management.ManagementApiUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
 
 import java.text.MessageFormat;
 
@@ -36,28 +37,29 @@ import java.text.MessageFormat;
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+@Parameters(commandDescription = "Create an API")
 public class ApiCreateCommand extends AbstractApiCommand implements ApiMixin {
     private static final Logger LOGGER = LogManager.getLogger(ApiCreateCommand.class);
 
-    @Option(name = "--name", aliases = {"-n"}, usage = "API name", required = true)
+    @Parameter(names = {"--name", "-n"}, description = "API name", required = true)
     private String name;
 
-    @Option(name = "--description", aliases = {"-d"}, usage = "Description")
+    @Parameter(names = {"--description", "-d"}, description = "Description")
     private String description;
 
-    @Option(name = "--initialVersion", aliases = {"-v"}, usage = "Initial version", required = true)
+    @Parameter(names = {"--initialVersion", "-v"}, description = "Initial version", required = true)
     private String initialVersion;
 
-    @Option(name = "--endpoint", aliases = {"-e"}, usage = "Endpoint", required = true)
+    @Parameter(names = {"--endpoint", "-e"}, description = "Endpoint", required = true)
     private String endpoint;
 
-    @Option(name = "--endpointType", aliases = {"-t"}, usage = "Endpoint type")
+    @Parameter(names = {"--endpointType", "-t"}, description = "Endpoint type")
     private String endpointType = "rest";
 
-    @Option(name = "--public", aliases = {"-p"}, usage = "Public API", required = true)
+    @Parameter(names = {"--public", "-p"}, description = "Public API", required = true)
     private boolean publicApi;
 
-    @Option(name = "--gateway", aliases = {"-g"}, usage = "Gateway")
+    @Parameter(names = {"--gateway", "-g"}, description = "Gateway")
     private String gateway = "TheGateway";
 
     @Override
@@ -66,7 +68,7 @@ public class ApiCreateCommand extends AbstractApiCommand implements ApiMixin {
     }
 
     @Override
-    public void performAction(CmdLineParser parser) throws CommandException {
+    public void performAction(JCommander parser) throws CommandException {
         LOGGER.debug("Creating {}", this::getModelName);
 
         final Api api = new Api(
@@ -81,7 +83,7 @@ public class ApiCreateCommand extends AbstractApiCommand implements ApiMixin {
                 Lists.newArrayList(new ApiGateway(gateway)));
 
         // create
-        final VersionAgnosticApi apiClient = buildServerApiClient(VersionAgnosticApi.class, serverVersion);
+        final VersionAgnosticApi apiClient = getManagerConfig().buildServerApiClient(VersionAgnosticApi.class, serverVersion);
         ManagementApiUtil.invokeAndCheckResponse(() -> apiClient.create(orgName, api));
 
         // configure

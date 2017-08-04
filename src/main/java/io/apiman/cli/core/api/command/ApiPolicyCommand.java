@@ -16,6 +16,7 @@
 
 package io.apiman.cli.core.api.command;
 
+import com.beust.jcommander.Parameters;
 import io.apiman.cli.command.AbstractCommand;
 import io.apiman.cli.command.Command;
 
@@ -26,6 +27,8 @@ import java.util.Map;
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+
+@Parameters(commandDescription = "Manage API policies")
 public class ApiPolicyCommand extends AbstractCommand {
     @Override
     protected void populateCommands(Map<String, Class<? extends Command>> commandMap) {

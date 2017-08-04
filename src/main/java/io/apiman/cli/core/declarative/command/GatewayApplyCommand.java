@@ -16,10 +16,10 @@
 
 package io.apiman.cli.core.declarative.command;
 
-import static java.text.MessageFormat.format;
-import static java.util.Optional.ofNullable;
-
+import com.beust.jcommander.Parameters;
+import com.beust.jcommander.ParametersDelegate;
 import com.google.inject.Inject;
+import io.apiman.cli.command.GatewayCommon;
 import io.apiman.cli.core.api.GatewayApi;
 import io.apiman.cli.core.api.model.ApiGateway;
 import io.apiman.cli.core.api.model.EndpointProperties;
@@ -41,29 +41,34 @@ import io.apiman.gateway.engine.beans.Policy;
 import io.apiman.gateway.engine.beans.SystemStatus;
 import io.apiman.manager.api.beans.policies.PolicyDefinitionBean;
 import io.apiman.manager.api.core.exceptions.InvalidPluginException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import retrofit.RetrofitError;
 
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.function.Supplier;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import retrofit.RetrofitError;
+import static java.text.MessageFormat.format;
+import static java.util.Optional.ofNullable;
 
 /**
  * Apply a gateway declaration.
  *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
+@Parameters(commandDescription = "Apply Apiman Gateway declaration")
 public class GatewayApplyCommand extends AbstractApplyCommand {
+    @ParametersDelegate
+    private GatewayCommon gatewayCommon = new GatewayCommon();
 
     private static final Logger LOGGER = LogManager.getLogger(GatewayApplyCommand.class);
     private String orgId;

@@ -16,6 +16,7 @@
 
 package io.apiman.cli;
 
+import com.beust.jcommander.Parameters;
 import io.apiman.cli.command.AbstractCommand;
 import io.apiman.cli.command.Command;
 import io.apiman.cli.core.api.command.ApiCommand;
@@ -32,6 +33,7 @@ import java.util.Map;
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
 
+@Parameters(commandDescription = "Interact with the Apiman Manager")
 public class ManagerCli extends AbstractCommand {
 
     @Override

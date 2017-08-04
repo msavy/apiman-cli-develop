@@ -16,12 +16,12 @@
 
 package io.apiman.cli.core.common.command;
 
+import com.beust.jcommander.JCommander;
 import io.apiman.cli.exception.CommandException;
 import io.apiman.cli.util.LogUtil;
 import io.apiman.cli.util.MappingUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.kohsuke.args4j.CmdLineParser;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
-public abstract class ModelListCommand<M, A> extends AbstractModelCommand<M, A> {
+public abstract class ModelListCommand<M, A> extends AbstractManagerModelCommand<M, A> {
     private static final Logger LOGGER = LogManager.getLogger(ModelListCommand.class);
 
     @Override
@@ -46,11 +46,11 @@ public abstract class ModelListCommand<M, A> extends AbstractModelCommand<M, A> 
 
     @SuppressWarnings("unchecked")
     @Override
-    public void performAction(CmdLineParser parser) throws CommandException {
+    public void performAction(JCommander parser) throws CommandException {
         LOGGER.debug("Listing {}", this::getModelName);
 
         try {
-            final A apiClient = buildServerApiClient(getApiClass());
+            final A apiClient = getManagerConfig().buildServerApiClient(getApiClass());
             final Method listMethod = apiClient.getClass().getMethod("list");
             processList((List<M>) listMethod.invoke(apiClient));
 

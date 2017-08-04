@@ -16,6 +16,7 @@
 
 package io.apiman.cli.core.plugin.command;
 
+import com.beust.jcommander.Parameters;
 import io.apiman.cli.core.common.command.ModelListCommand;
 import io.apiman.cli.core.plugin.PluginApi;
 import io.apiman.cli.core.plugin.PluginMixin;
@@ -26,6 +27,7 @@ import io.apiman.cli.core.plugin.model.Plugin;
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+@Parameters(commandDescription = "List plugins")
 public class PluginListCommand extends ModelListCommand<Plugin, PluginApi>
         implements PluginMixin {
 }
