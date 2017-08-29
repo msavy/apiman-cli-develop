@@ -36,8 +36,4 @@ public class PluginCommand extends AbstractCommand {
         commandMap.put("list", PluginListCommand.class);
     }
 
-    @Override
-    protected String getCommandDescription() {
-        return "Manage Plugins";
-    }
 }

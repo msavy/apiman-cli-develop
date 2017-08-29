@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Pete Cornish
+ * Copyright 2017 Red Hat, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package io.apiman.cli.core.org.command;
+package io.apiman.cli.gateway.command;
 
 import com.beust.jcommander.Parameters;
 import io.apiman.cli.command.AbstractCommand;
@@ -23,16 +22,13 @@ import io.apiman.cli.command.Command;
 import java.util.Map;
 
 /**
- * Root Command for managing organisations.
- *
- * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
+ * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
-@Parameters(commandDescription = "Manage organisations")
-public class OrgCommand extends AbstractCommand {
+@Parameters(commandDescription = "Retire and list APIs")
+public class GatewayApiCommand extends AbstractCommand {
     @Override
     protected void populateCommands(Map<String, Class<? extends Command>> commandMap) {
-        commandMap.put("create", OrgCreateCommand.class);
-        commandMap.put("show", OrgShowCommand.class);
+        commandMap.put("retire", RetireApiCommand.class);
+        //commandMap.put("list", ListApiCommand.class);
     }
-
 }

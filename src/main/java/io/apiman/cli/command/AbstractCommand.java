@@ -53,8 +53,13 @@ public abstract class AbstractCommand implements Command {
     @Parameter(names = {"--help", "-h"}, description = "Display usage only", help = true)
     private boolean displayHelp;
 
+    /**
+     * When a user provides an invalid flag with subcommands JCommander's errors are confusing and refer to a main
+     * parameter, even when it's not used. A workaround is to add a main parameter and detect when invalid entries
+     * land into it, throwing a custom error message instead.
+     */
     @Parameter(hidden=true)
-    public List<String> mainParameter = new ArrayList<>(); // blah
+    private List<String> mainParameter = new ArrayList<>();
 
     /**
      * The parent Command (<code>null</code> if root).
@@ -65,6 +70,10 @@ public abstract class AbstractCommand implements Command {
      * The name of this command.
      */
     private String commandName;
+
+    /**
+     * Guice injector.
+     */
     private static Injector injector;
 
     static {
@@ -85,11 +94,6 @@ public abstract class AbstractCommand implements Command {
      */
     protected abstract void populateCommands(Map<String, Class<? extends Command>> commandMap);
 
-    /**
-     * @return human-readable short description for this command (e.g. 'Manage Plugins')
-     */
-    protected abstract String getCommandDescription();
-
     @Override
     public void setParent(Command parent) {
         this.parent = parent;
@@ -101,14 +105,6 @@ public abstract class AbstractCommand implements Command {
     @Override
     public void setCommandName(String commandName) {
         this.commandName = commandName;
-    }
-
-    /**
-     * @return the name of this command
-     */
-    @Override
-    public String getCommandName() {
-        return commandName;
     }
 
     private static JCommander addSubCommand(JCommander parentCommand,
@@ -157,7 +153,7 @@ public abstract class AbstractCommand implements Command {
     }
 
     private boolean noArgsSet(JCommander jc) {
-        return !jc.getParameters().stream().allMatch(ParameterDescription::isAssigned);
+        return jc.getParameters().stream().allMatch(p -> !p.isAssigned());
     }
 
     /**
@@ -194,14 +190,6 @@ public abstract class AbstractCommand implements Command {
     protected void printUsage(JCommander parser, int exitCode) {
         printUsage(parser);
         System.exit(exitCode);
-    }
-
-    /**
-     * See {@link Command#getCommandChain()}
-     */
-    @Override
-    public String getCommandChain() {
-        return (null != parent ? parent.getCommandChain() + " " : "") + getCommandName();
     }
 
     /**
@@ -301,7 +289,7 @@ public abstract class AbstractCommand implements Command {
             sb.append("The following arguments are available:");
             sb.append(LINE_SEPARATOR).append(LINE_SEPARATOR);
 
-            jc.getParameters().forEach(param -> {
+            parameters.forEach(param -> {
                 // Foo: Description
                 sb.append("   ");
                 sb.append(param.getNames() + ": ");

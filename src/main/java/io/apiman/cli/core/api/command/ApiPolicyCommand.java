@@ -35,8 +35,4 @@ public class ApiPolicyCommand extends AbstractCommand {
         commandMap.put("add", ApiPolicyAddCommand.class);
     }
 
-    @Override
-    protected String getCommandDescription() {
-        return "Manage API policies";
-    }
 }

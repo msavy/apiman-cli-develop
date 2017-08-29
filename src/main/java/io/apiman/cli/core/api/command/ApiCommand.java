@@ -38,8 +38,4 @@ public class ApiCommand extends AbstractCommand {
         commandMap.put("definition", ApiDefinitionCommand.class);
     }
 
-    @Override
-    protected String getCommandDescription() {
-        return "Manage APIs";
-    }
 }

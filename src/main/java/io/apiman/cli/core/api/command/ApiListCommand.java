@@ -27,7 +27,6 @@ import io.apiman.cli.util.MappingUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -38,11 +37,6 @@ import java.util.List;
 @Parameters(commandDescription = "List APIs")
 public class ApiListCommand extends AbstractApiCommand implements ApiMixin {
     private static final Logger LOGGER = LogManager.getLogger(ApiListCommand.class);
-
-    @Override
-    protected String getCommandDescription() {
-        return MessageFormat.format("List {0}s", getModelName());
-    }
 
     @Override
     public void performAction(JCommander parser) throws CommandException {

@@ -25,7 +25,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -33,11 +32,6 @@ import java.util.List;
  */
 public abstract class ModelListCommand<M, A> extends AbstractManagerModelCommand<M, A> {
     private static final Logger LOGGER = LogManager.getLogger(ModelListCommand.class);
-
-    @Override
-    protected String getCommandDescription() {
-        return MessageFormat.format("List {0}s", getModelName());
-    }
 
     @Override
     protected boolean permitNoArgs() {

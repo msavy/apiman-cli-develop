@@ -24,8 +24,6 @@ import io.apiman.cli.core.plugin.PluginMixin;
 import io.apiman.cli.core.plugin.model.Plugin;
 import io.apiman.cli.exception.CommandException;
 
-import java.text.MessageFormat;
-
 /**
  * Add a plugin.
  *
@@ -46,11 +44,6 @@ public class PluginAddCommand extends ModelCreateCommand<Plugin, PluginApi>
 
     @Parameter(names = {"--classifier", "-c"}, description = "Classifier")
     private String classifier;
-
-    @Override
-    protected String getCommandDescription() {
-        return MessageFormat.format("Add {0}", getModelName());
-    }
 
     @Override
     protected Plugin buildModelInstance() throws CommandException {

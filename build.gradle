@@ -78,6 +78,7 @@ dependencies {
     compile "io.apiman:apiman-common-plugin:$version_apiman"
     compile "io.apiman:apiman-manager-api-core:$version_apiman"
     runtime "io.apiman:apiman-distro-data:$version_apiman"
+    compile "io.apiman:apiman-gateway-api-rest:$version_apiman"
 
     // route slf4j events to log4j2
     compile "org.apache.logging.log4j:log4j-slf4j-impl:$version_log4j"

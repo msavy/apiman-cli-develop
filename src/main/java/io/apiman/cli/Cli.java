@@ -76,14 +76,4 @@ public class Cli extends AbstractCommand {
         commandMap.put("manager", ManagerCli.class);
         commandMap.put("gateway", GatewayCli.class);
     }
-
-    @Override
-    protected String getCommandDescription() {
-        return "apiman-cli";
-    }
-
-    @Override
-    public String getCommandName() {
-        return "apiman";
-    }
 }

@@ -37,8 +37,4 @@ public class GatewayCommand extends AbstractCommand {
         commandMap.put("test", GatewayTestCommand.class);
     }
 
-    @Override
-    protected String getCommandDescription() {
-        return "Manage Gateways";
-    }
 }

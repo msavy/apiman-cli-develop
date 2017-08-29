@@ -26,8 +26,6 @@ import io.apiman.cli.exception.CommandException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.text.MessageFormat;
-
 /**
  * Publish an API.
  *
@@ -42,11 +40,6 @@ public class ApiPublishCommand extends AbstractApiCommand implements ApiMixin {
 
     @Parameter(names = { "--version", "-v"}, description = "API version", required = true)
     private String version;
-
-    @Override
-    protected String getCommandDescription() {
-        return MessageFormat.format("Publish {0}", getModelName());
-    }
 
     @Override
     public void performAction(JCommander parser) throws CommandException {

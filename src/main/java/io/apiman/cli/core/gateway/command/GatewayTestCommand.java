@@ -39,11 +39,6 @@ public class GatewayTestCommand extends AbstractGatewayCreateCommand {
     private static final Logger LOGGER = LogManager.getLogger(GatewayTestCommand.class);
 
     @Override
-    protected String getCommandDescription() {
-        return MessageFormat.format("Test {0}", getModelName());
-    }
-
-    @Override
     public void performAction(JCommander parser) throws CommandException {
         LOGGER.debug("Testing {}", this::getModelName);
 

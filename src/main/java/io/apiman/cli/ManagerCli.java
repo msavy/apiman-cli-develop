@@ -28,7 +28,7 @@ import io.apiman.cli.core.plugin.command.PluginCommand;
 import java.util.Map;
 
 /**
- * The main class; the root of all Commands.
+ * The main class; the root of all Manager Commands.
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
@@ -45,13 +45,4 @@ public class ManagerCli extends AbstractCommand {
         commandMap.put("apply", ManagerApplyCommand.class);
     }
 
-    @Override
-    protected String getCommandDescription() {
-        return "apiman-manager-cli";
-    }
-
-    @Override
-    public String getCommandName() {
-        return "manager";
-    }
 }

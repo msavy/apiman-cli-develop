@@ -18,6 +18,7 @@ package io.apiman.cli.core.declarative.command;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 import io.apiman.cli.command.AbstractFinalCommand;
 import io.apiman.cli.core.declarative.model.BaseDeclaration;
 import io.apiman.cli.exception.CommandException;
@@ -43,6 +44,7 @@ import static java.util.Optional.ofNullable;
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
+@Parameters(commandDescription = "Apply declaration")
 public abstract class AbstractApplyCommand extends AbstractFinalCommand {
     private static final Logger LOGGER = LogManager.getLogger(AbstractApplyCommand.class);
     protected static final String JSON_EXTENSION = ".json";
@@ -55,11 +57,6 @@ public abstract class AbstractApplyCommand extends AbstractFinalCommand {
 
     @Parameter(names = "--propertiesFile", description = "Properties file")
     protected List<Path> propertiesFiles;
-
-    @Override
-    protected String getCommandDescription() {
-        return "Apply declaration";
-    }
 
     @Override
     public void performAction(JCommander parser) throws CommandException {

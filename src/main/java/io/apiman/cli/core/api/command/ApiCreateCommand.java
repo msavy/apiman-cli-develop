@@ -30,8 +30,6 @@ import io.apiman.cli.management.ManagementApiUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.text.MessageFormat;
-
 /**
  * Create an API.
  *
@@ -61,11 +59,6 @@ public class ApiCreateCommand extends AbstractApiCommand implements ApiMixin {
 
     @Parameter(names = {"--gateway", "-g"}, description = "Gateway")
     private String gateway = "TheGateway";
-
-    @Override
-    protected String getCommandDescription() {
-        return MessageFormat.format("Create {0}", getModelName());
-    }
 
     @Override
     public void performAction(JCommander parser) throws CommandException {

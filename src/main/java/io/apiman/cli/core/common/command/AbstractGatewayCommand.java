@@ -14,25 +14,22 @@
  * limitations under the License.
  */
 
-package io.apiman.cli.core.org.command;
+package io.apiman.cli.core.common.command;
 
-import com.beust.jcommander.Parameters;
-import io.apiman.cli.command.AbstractCommand;
-import io.apiman.cli.command.Command;
-
-import java.util.Map;
+import com.beust.jcommander.ParametersDelegate;
+import io.apiman.cli.command.AbstractFinalCommand;
+import io.apiman.cli.command.GatewayCommon;
 
 /**
- * Root Command for managing organisations.
+ * Common model CRUD functionality.
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
-@Parameters(commandDescription = "Manage organisations")
-public class OrgCommand extends AbstractCommand {
-    @Override
-    protected void populateCommands(Map<String, Class<? extends Command>> commandMap) {
-        commandMap.put("create", OrgCreateCommand.class);
-        commandMap.put("show", OrgShowCommand.class);
-    }
+public abstract class AbstractGatewayCommand extends AbstractFinalCommand {
+    @ParametersDelegate
+    private GatewayCommon managerConfig = new GatewayCommon();
 
+    public GatewayCommon getGatewayConfig() {
+        return managerConfig;
+    }
 }

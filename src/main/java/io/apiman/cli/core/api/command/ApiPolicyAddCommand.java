@@ -34,7 +34,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.text.MessageFormat;
 
 /**
  * Add a policy to an API.
@@ -59,11 +58,6 @@ public class ApiPolicyAddCommand extends AbstractApiCommand implements ApiMixin 
 
     @Parameter(names = { "--configFile", "-f" }, description = "Policy configuration file") // TODO forbids i
     private Path configFile;
-
-    @Override
-    protected String getCommandDescription() {
-        return MessageFormat.format("Add {0} policy", getModelName());
-    }
 
     @Override
     public void performAction(JCommander parser) throws CommandException {

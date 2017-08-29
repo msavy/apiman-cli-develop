@@ -24,18 +24,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
 
 /**
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
 public abstract class ModelShowCommand<M, A> extends AbstractManagerModelCommand<M, A> {
     private static final Logger LOGGER = LogManager.getLogger(ModelShowCommand.class);
-
-    @Override
-    protected String getCommandDescription() {
-        return MessageFormat.format("Show {0}", getModelName());
-    }
 
     @Override
     public void performAction(JCommander parser) throws CommandException {

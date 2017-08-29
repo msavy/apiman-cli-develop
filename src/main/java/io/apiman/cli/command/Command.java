@@ -29,8 +29,6 @@ public interface Command {
 
     void setCommandName(String command);
 
-    String getCommandName();
-
     void build(JCommander jcommander);
 
     /**
@@ -39,11 +37,6 @@ public interface Command {
      * @param args the arguments to parse
      */
     void run(List<String> args, JCommander jcommander);
-
-    /**
-     * @return a concatenation of the parent's command name and this command name
-     */
-    String getCommandChain();
 
     /**
      * Default implementation will print usage and exit with an error code.

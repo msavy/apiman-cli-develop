@@ -34,7 +34,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.text.MessageFormat;
 
 /**
  * Create an API.
@@ -59,11 +58,6 @@ public class ApiDefinitionCommand extends AbstractApiCommand implements ApiMixin
 
     @Parameter(names = { "--definitionType", "-t"}, description = "Endpoint", required = true)
     private String definitionType = "application/json";
-
-    @Override
-    protected String getCommandDescription() {
-        return MessageFormat.format("Set definition {0}", getModelName());
-    }
 
     @Override
     public void performAction(JCommander parser) throws CommandException {

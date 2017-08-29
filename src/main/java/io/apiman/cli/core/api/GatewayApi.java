@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 JBoss Inc
+ * Copyright 2017 Red Hat, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,6 +28,9 @@ import retrofit.http.GET;
 import retrofit.http.PUT;
 import retrofit.http.Path;
 
+/**
+ * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
+ */
 public interface GatewayApi {
 
     @PUT("/apis")
@@ -45,10 +48,10 @@ public interface GatewayApi {
     SystemStatus getSystemStatus();
 
     @PUT("/clients")
-    void registerClient(@Body Client client);
+    Response registerClient(@Body Client client);
 
     @DELETE("/clients/{organizationId}/{clientId}/{version}")
-    void unregisterClient(@Path("organizationId") String organizationId,
+    Response unregisterClient(@Path("organizationId") String organizationId,
             @Path("clientId") String clientId, @Path("version") String version);
 
 }
