@@ -22,6 +22,7 @@ import com.beust.jcommander.Parameters;
 import com.google.common.collect.Lists;
 import io.apiman.cli.command.AbstractCommand;
 import io.apiman.cli.command.Command;
+import io.apiman.cli.exception.CommandException;
 import io.apiman.cli.exception.ExitWithCodeException;
 import io.apiman.cli.util.LogUtil;
 import org.apache.logging.log4j.LogManager;
@@ -48,7 +49,7 @@ public class Cli extends AbstractCommand {
         try {
             jc.parse(args.toArray(new String[]{}));
             super.run(args, jc);
-        } catch (ParameterException e) {
+        } catch (ParameterException | CommandException e) {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug(e);
             } else {

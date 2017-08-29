@@ -36,7 +36,7 @@ public class ExceptionTest {
 
     @Test
     public void testExitWithCode1OnException() {
-        exit.expectSystemExitWithStatus(1);
+        exit.expectSystemExitWithStatus(255);
 
         Cli.main("manager",
                 "gateway", "list",
