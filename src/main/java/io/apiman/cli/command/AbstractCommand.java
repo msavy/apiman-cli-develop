@@ -82,7 +82,7 @@ public abstract class AbstractCommand implements Command {
 
     public AbstractCommand() {
         // get child commands
-        commandMap = Maps.newHashMap();
+        commandMap = Maps.newLinkedHashMap();
         commandInstanceMap = Maps.newHashMap();
         populateCommands(commandMap);
     }
@@ -250,6 +250,8 @@ public abstract class AbstractCommand implements Command {
             // Optional open braces
             if (!param.getParameter().required()) {
                 intermediary.append("[");
+            } else {
+                intermediary.append("(");
             }
 
             intermediary.append(param.getNames());
@@ -257,6 +259,8 @@ public abstract class AbstractCommand implements Command {
             // Optional close braces
             if (!param.getParameter().required()) {
                 intermediary.append("]");
+            } else {
+                intermediary.append(")");
             }
 
             intermediary.append(" ");
