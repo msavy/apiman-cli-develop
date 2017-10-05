@@ -13,34 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package io.apiman.cli;
+package io.apiman.cli.gateway.command;
 
 import com.beust.jcommander.Parameters;
 import io.apiman.cli.command.AbstractCommand;
 import io.apiman.cli.command.Command;
-import io.apiman.cli.core.declarative.command.GatewayApplyCommand;
-import io.apiman.cli.gateway.command.EndpointCommand;
-import io.apiman.cli.gateway.command.GatewayApiCommand;
-import io.apiman.cli.gateway.command.GatewayClientCommand;
-import io.apiman.cli.gateway.command.GatewayOrgCommand;
 
 import java.util.Map;
 
 /**
- * Root of Gateway commands.
- *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
-@Parameters(commandDescription = "Interact with an Apiman Gateway directly")
-public class GatewayCli extends AbstractCommand {
-
+@Parameters(commandDescription = "List Organizations")
+public class GatewayOrgCommand extends AbstractCommand {
     @Override
     protected void populateCommands(Map<String, Class<? extends Command>> commandMap) {
-        commandMap.put("apply", GatewayApplyCommand.class);
-        commandMap.put("organization", GatewayOrgCommand.class);
-        commandMap.put("api", GatewayApiCommand.class);
-        commandMap.put("client", GatewayClientCommand.class);
-        commandMap.put("endpoint", EndpointCommand.class);
+        commandMap.put("list", ListOrgCommand.class);
     }
 }

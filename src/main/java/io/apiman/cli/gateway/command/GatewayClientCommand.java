@@ -29,5 +29,6 @@ public class GatewayClientCommand extends AbstractCommand {
     @Override
     protected void populateCommands(Map<String, Class<? extends Command>> commandMap) {
         commandMap.put("unregister", UnregisterClientCommand.class);
+        commandMap.put("list", ListClientCommand.class);
     }
 }

@@ -29,6 +29,6 @@ public class GatewayApiCommand extends AbstractCommand {
     @Override
     protected void populateCommands(Map<String, Class<? extends Command>> commandMap) {
         commandMap.put("retire", RetireApiCommand.class);
-        //commandMap.put("list", ListApiCommand.class);
+        commandMap.put("list", ListApiCommand.class);
     }
 }

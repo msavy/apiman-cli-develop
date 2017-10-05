@@ -1,0 +1,89 @@
+/*
+ * Copyright 2017 Red Hat, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package io.apiman.cli.gateway.command;
+
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
+import com.google.inject.Inject;
+import io.apiman.cli.core.api.GatewayApi;
+import io.apiman.cli.core.common.command.AbstractGatewayCommand;
+import io.apiman.cli.core.gateway.GatewayHelper;
+import io.apiman.cli.exception.CommandException;
+import io.apiman.cli.management.factory.GatewayApiFactory;
+import io.apiman.cli.util.MappingUtil;
+import io.apiman.gateway.engine.beans.Api;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.List;
+import java.util.function.Supplier;
+
+/**
+ * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
+ */
+@Parameters(commandDescription = "Retrieve information about APIs")
+public class ListApiCommand extends AbstractGatewayCommand implements GatewayHelper {
+
+    @Parameter(names = "--org", description = "Organization ID", required = true)
+    private String orgId;
+
+    @Parameter(names = "--api", description = "API ID")
+    private String apiId;
+
+    @Parameter(names = "--version", description = "API Version")
+    private String version;
+
+    private GatewayApiFactory apiFactory;
+    private Logger LOGGER = LogManager.getLogger(ListApiCommand.class);
+
+    @Override
+    public void performAction(JCommander parser) throws CommandException {
+        GatewayApi gatewayApi = buildGatewayApiClient(apiFactory, getGatewayConfig());
+        // Do status check
+        statusCheck(gatewayApi, getGatewayConfig().getGatewayApiEndpoint());
+
+        // If API ID not provided, list all APIs in org
+        if (apiId == null) {
+            sortAndPrint("APIs", () -> gatewayApi.listApis(orgId));
+        } else if (version == null) { // If version not provided, list all versions of API
+            sortAndPrint("API Versions", () -> gatewayApi.listApiVersions(orgId, apiId));
+        } else { // Otherwise retrieve the API explicitly.
+            Api api = callAndCatch(getGatewayConfig().getGatewayApiEndpoint(),
+                    () -> gatewayApi.getApiVersion(orgId, apiId, version));
+
+           if (api == null) {
+               LOGGER.debug("No API returned for provided parameters");
+           } else {
+               System.out.println( MappingUtil.safeWriteValueAsJson(api));
+           }
+        }
+    }
+
+    private void sortAndPrint(String entityName, Supplier<List<String>> action) {
+        List<String> ids = callAndCatch(getGatewayConfig().getGatewayApiEndpoint(), action);
+        LOGGER.debug("{} returned: {}", entityName, ids.size());
+        // Sort case insensitively
+        ids.sort(String::compareToIgnoreCase);
+        ids.forEach(System.out::println);
+    }
+
+    @Inject
+    public void setGatewayApiFactory(GatewayApiFactory apiFactory) {
+        this.apiFactory = apiFactory;
+    }
+
+}
