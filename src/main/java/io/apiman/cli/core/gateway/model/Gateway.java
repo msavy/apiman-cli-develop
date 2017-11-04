@@ -57,4 +57,19 @@ public class Gateway {
     public String getName() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Gateway gateway = (Gateway) o;
+
+        return name != null ? name.equals(gateway.name) : gateway.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
+    }
 }

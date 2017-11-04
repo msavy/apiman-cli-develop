@@ -51,9 +51,13 @@ public class Cli extends AbstractCommand {
             super.run(args, jc);
         } catch (ParameterException | CommandException e) {
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug(e);
+                LOGGER.debug(e.getMessage(), e);
             } else {
-                LOGGER.error(e.getMessage());
+                if (e.getCause() == null) {
+                    LOGGER.error(e.getMessage());
+                } else {
+                    LOGGER.error("{}: {}", e.getMessage(), e.getCause().getMessage());
+                }
             }
             printUsage(jc, false);
         } catch (ExitWithCodeException ec) {
