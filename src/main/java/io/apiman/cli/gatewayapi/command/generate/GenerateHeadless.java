@@ -116,6 +116,8 @@ public class GenerateHeadless extends AbstractApplyCommand implements GatewayHel
         @JsonProperty("clients")
         private List<Client> clients;
 
+        HeadlessConfigBean(){}
+
         HeadlessConfigBean(List<Api> apis, List<Client> clients) {
             this.apis = apis;
             this.clients = clients;

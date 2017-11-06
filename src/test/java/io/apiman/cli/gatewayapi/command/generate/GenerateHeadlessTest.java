@@ -79,10 +79,23 @@ public class GenerateHeadlessTest extends BaseTest {
     }
 
     @Test
+    public void testGenerateConfig_writeToDirectory() throws Exception {
+        command.setDeclarationFile(getResourceAsPath("/gateway/generateHeadless/plugin-and-builtin-policies.yml"));
+        command.outputFiles.add(Paths.get("/tmp"));
+        // Run
+        command.applyDeclaration();
+        // Verify file exists
+        isTrue(Files.exists(Paths.get("/tmp/test-gw.json"))); // Note generated name
+        // Read the output file back in, and compare with expected result
+        String expectedFileOutput = new String(Files.readAllBytes(Paths.get("/tmp/test-gw.json")));
+        Assert.assertEquals(getResourceAsString("/gateway/generateHeadless/expected-headless_plugin-and-builtin-policies.json"), expectedFileOutput);
+    }
+
+    @Test
     public void testGenerateConfig_withOutputFile() throws Exception {
         command.setJsonWriter(mJsonWriter);
 
-        command.setDeclarationFile(getResourceAsPath("/gateway/plugin-and-builtin-policies.yml"));
+        command.setDeclarationFile(getResourceAsPath("/gateway/generateHeadless/plugin-and-builtin-policies.yml"));
         command.outputFiles.add(Paths.get("/tmp/someOutputFile.json")); // Doesn't matter, we're stubbing this.
         // Run
         command.applyDeclaration();
@@ -91,6 +104,23 @@ public class GenerateHeadlessTest extends BaseTest {
         // We expect the above API to be written
         HeadlessConfigBean expectedWrite = new HeadlessConfigBean(Arrays.asList(expectedApi), Collections.emptyList());
         verify(mJsonWriter).write(eq(Paths.get("/tmp/someOutputFile.json")), refEq(expectedWrite));
+    }
+
+    @Test
+    public void testGenerateConfig_withMultipleGatewayConfigs() throws Exception {
+        command.setJsonWriter(mJsonWriter);
+
+        command.setDeclarationFile(getResourceAsPath("/gateway/generateHeadless/plugin-and-builtin-policies_multiple-gateways.yml"));
+        command.outputFiles.add(Paths.get("/tmp/someOutputFile.json")); // Doesn't matter, we're stubbing this.
+        command.outputFiles.add(Paths.get("/tmp/someOutputFile2.json")); // Doesn't matter, we're stubbing this.
+        // Run
+        command.applyDeclaration();
+        // Verify it matches our reference configs.
+        HeadlessConfigBean expectedApi = expectJson("/gateway/generateHeadless/expected-multiple-gateways.json", HeadlessConfigBean.class);
+        HeadlessConfigBean expectedApi2 = expectJson("/gateway/generateHeadless/expected-multiple-gateways-2.json", HeadlessConfigBean.class);
+
+        verify(mJsonWriter).write(eq(Paths.get("/tmp/someOutputFile.json")), refEq(expectedApi));
+        verify(mJsonWriter).write(eq(Paths.get("/tmp/someOutputFile2.json")), refEq(expectedApi2));
     }
 
 }
