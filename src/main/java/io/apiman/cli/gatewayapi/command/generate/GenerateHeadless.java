@@ -19,10 +19,10 @@ import com.beust.jcommander.Parameter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.inject.Inject;
 import io.apiman.cli.core.declarative.command.AbstractApplyCommand;
-import io.apiman.cli.gatewayapi.model.GatewayApiDataModel;
 import io.apiman.cli.core.declarative.model.BaseDeclaration;
 import io.apiman.cli.core.declarative.model.DeclarativeGateway;
 import io.apiman.cli.gatewayapi.GatewayHelper;
+import io.apiman.cli.gatewayapi.model.GatewayApiDataModel;
 import io.apiman.cli.util.MappingUtil;
 import io.apiman.cli.util.PolicyResolver;
 import io.apiman.gateway.engine.beans.Api;
@@ -45,6 +45,7 @@ import java.util.Optional;
 public class GenerateHeadless extends AbstractApplyCommand implements GatewayHelper {
     private static final Logger LOGGER = LogManager.getLogger(GenerateHeadless.class);
     private PolicyResolver policyResolver;
+    private JsonWriter jsonWriter = (outputPath, headlessConfig) -> Files.write(outputPath, headlessConfig.toJson().getBytes());
 
     @Parameter(names = {"--outputFile", "-o"}, description = "Output file(s) or directory. If a directory is provided a filename will be generated.")
     protected List<Path> outputFiles = new ArrayList<>();
@@ -57,6 +58,8 @@ public class GenerateHeadless extends AbstractApplyCommand implements GatewayHel
     public void setPolicyResolver(PolicyResolver policyResolver) {
         this.policyResolver = policyResolver;
     }
+
+    public void setJsonWriter(JsonWriter jsonWriter) { this.jsonWriter = jsonWriter; }
 
     @Override
     protected void applyDeclaration(BaseDeclaration declaration) {
@@ -88,18 +91,18 @@ public class GenerateHeadless extends AbstractApplyCommand implements GatewayHel
 
     private void printToFile(DeclarativeGateway gateway, HeadlessConfigBean config, boolean directorySpecified, int fileIndex) {
         Path directory = directorySpecified ? outputFiles.get(0) : Paths.get(System.getProperty("user.dir"));
-        Path output;
+        Path fullOutputPath;
         // If user has only provided a directory (i.e. no explicit name) or there aren't enough names provided
         // for the number of definitions being generated, then derive a filename from the gateway name.
         if (directorySpecified || fileIndex > outputFiles.size()) {
             String gatewayName = Optional.ofNullable(gateway.getName()).orElse("unnamed-config-" + fileIndex);
             String fileName = gatewayName.replaceAll("[\\s/]", "-");
-            output = Paths.get(directory.toString(), fileName + ".json");
+            fullOutputPath = Paths.get(directory.toString(), fileName + ".json");
         } else {
-            output = outputFiles.get(fileIndex);
+            fullOutputPath = outputFiles.get(fileIndex);
         }
         try {
-            Files.write(output, config.toJson().getBytes());
+            jsonWriter.write(fullOutputPath, config);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -107,7 +110,7 @@ public class GenerateHeadless extends AbstractApplyCommand implements GatewayHel
 
     // Ignore unused as this is to provide a template for JSON marshalling.
     @SuppressWarnings("unused")
-    private static final class HeadlessConfigBean {
+    static final class HeadlessConfigBean {
         @JsonProperty("apis")
         private List<Api> apis;
         @JsonProperty("clients")
@@ -121,5 +124,9 @@ public class GenerateHeadless extends AbstractApplyCommand implements GatewayHel
         String toJson() {
             return MappingUtil.safeWriteValueAsJson(this);
         }
+    }
+
+    interface JsonWriter {
+        void write(Path outputPath, HeadlessConfigBean headlessConfig) throws IOException;
     }
 }

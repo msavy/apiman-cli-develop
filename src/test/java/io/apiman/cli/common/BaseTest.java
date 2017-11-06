@@ -25,10 +25,12 @@ import io.apiman.cli.util.MappingUtil;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -119,5 +121,9 @@ public class BaseTest {
 
     protected Path getResourceAsPath(String resource) throws URISyntaxException, MalformedURLException {
         return Paths.get(getResourceAsURL(resource).toURI());
+    }
+
+    protected String getResourceAsString(String resource) throws URISyntaxException, IOException {
+        return new String(Files.readAllBytes(Paths.get(getResourceAsURL(resource).toURI())));
     }
 }
