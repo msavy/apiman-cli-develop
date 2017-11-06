@@ -19,8 +19,8 @@ package io.apiman.cli.core.declarative.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.apiman.cli.core.gateway.model.Gateway;
-import io.apiman.cli.core.gateway.model.GatewayConfig;
+import io.apiman.cli.managerapi.core.gateway.model.Gateway;
+import io.apiman.cli.managerapi.core.gateway.model.GatewayConfig;
 
 /**
  * Declarative gateway representation.

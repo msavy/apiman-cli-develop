@@ -18,9 +18,9 @@ package io.apiman.cli.command;
 
 import io.apiman.cli.common.BaseTest;
 import io.apiman.cli.common.IntegrationTest;
-import io.apiman.cli.core.common.model.ManagementApiVersion;
+import io.apiman.cli.managerapi.core.common.model.ManagementApiVersion;
 import io.apiman.cli.core.declarative.command.AbstractApplyCommand;
-import io.apiman.cli.core.declarative.command.ManagerApplyCommand;
+import io.apiman.cli.managerapi.declarative.command.ManagerApplyCommand;
 import io.apiman.cli.util.LogUtil;
 
 import java.nio.file.Paths;

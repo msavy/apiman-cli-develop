@@ -19,12 +19,12 @@ package io.apiman.cli;
 import com.beust.jcommander.Parameters;
 import io.apiman.cli.command.AbstractCommand;
 import io.apiman.cli.command.Command;
-import io.apiman.cli.core.declarative.command.GatewayApplyCommand;
-import io.apiman.cli.gateway.command.EndpointCommand;
-import io.apiman.cli.gateway.command.GatewayApiCommand;
-import io.apiman.cli.gateway.command.GatewayClientCommand;
-import io.apiman.cli.gateway.command.GatewayOrgCommand;
-import io.apiman.cli.gateway.command.Generate;
+import io.apiman.cli.gatewayapi.declarative.command.GatewayApplyCommand;
+import io.apiman.cli.gatewayapi.command.EndpointCommand;
+import io.apiman.cli.gatewayapi.command.api.GatewayApiCommand;
+import io.apiman.cli.gatewayapi.command.client.GatewayClientCommand;
+import io.apiman.cli.gatewayapi.command.GatewayOrgCommand;
+import io.apiman.cli.gatewayapi.command.generate.Generate;
 
 import java.util.Map;
 

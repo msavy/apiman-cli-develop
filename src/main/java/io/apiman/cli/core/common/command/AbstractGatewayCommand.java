@@ -27,9 +27,9 @@ import io.apiman.cli.command.GatewayCommon;
  */
 public abstract class AbstractGatewayCommand extends AbstractFinalCommand {
     @ParametersDelegate
-    private GatewayCommon managerConfig = new GatewayCommon();
+    private GatewayCommon gatewayCommonConfig = new GatewayCommon();
 
     public GatewayCommon getGatewayConfig() {
-        return managerConfig;
+        return gatewayCommonConfig;
     }
 }

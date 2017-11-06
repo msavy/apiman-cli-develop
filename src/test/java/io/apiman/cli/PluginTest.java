@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 import io.apiman.cli.common.BaseTest;
 import io.apiman.cli.common.IntegrationTest;
-import io.apiman.cli.core.plugin.model.Plugin;
+import io.apiman.cli.managerapi.core.plugin.model.Plugin;
 import io.apiman.cli.util.AuthUtil;
 import io.apiman.cli.util.MappingUtil;
 

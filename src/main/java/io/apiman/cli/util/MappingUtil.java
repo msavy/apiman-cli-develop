@@ -23,7 +23,7 @@ import io.apiman.cli.core.api.model.ServiceConfig;
 import io.apiman.cli.core.declarative.model.DeclarativeApiConfig;
 import io.apiman.cli.core.declarative.model.DeclarativeEndpointSecurity;
 import io.apiman.cli.core.declarative.model.DeclarativeGateway;
-import io.apiman.cli.core.gateway.model.Gateway;
+import io.apiman.cli.managerapi.core.gateway.model.Gateway;
 
 import java.io.IOException;
 import java.net.URL;

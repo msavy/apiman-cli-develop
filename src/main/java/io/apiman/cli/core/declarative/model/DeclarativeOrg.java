@@ -19,7 +19,7 @@ package io.apiman.cli.core.declarative.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.apiman.cli.core.org.model.Org;
+import io.apiman.cli.managerapi.core.org.model.Org;
 
 import java.util.List;
 
