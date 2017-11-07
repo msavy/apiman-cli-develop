@@ -18,6 +18,7 @@ package io.apiman.cli.gatewayapi.command.client;
 import com.beust.jcommander.Parameters;
 import io.apiman.cli.command.AbstractCommand;
 import io.apiman.cli.command.Command;
+import io.apiman.cli.gatewayapi.command.api.ApiEndpointCommand;
 
 import java.util.Map;
 
@@ -30,5 +31,6 @@ public class GatewayClientCommand extends AbstractCommand {
     protected void populateCommands(Map<String, Class<? extends Command>> commandMap) {
         commandMap.put("unregister", UnregisterClientCommand.class);
         commandMap.put("list", ListClientCommand.class);
+        commandMap.put("endpoint", ClientEndpointCommand.class);
     }
 }

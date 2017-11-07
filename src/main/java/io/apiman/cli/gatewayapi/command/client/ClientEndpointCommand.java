@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.apiman.cli.gatewayapi.command;
+package io.apiman.cli.gatewayapi.command.client;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
@@ -21,22 +21,22 @@ import com.beust.jcommander.Parameters;
 import com.google.inject.Inject;
 import io.apiman.cli.core.api.GatewayApi;
 import io.apiman.cli.core.common.command.AbstractGatewayCommand;
-import io.apiman.cli.gatewayapi.GatewayHelper;
 import io.apiman.cli.exception.CommandException;
+import io.apiman.cli.gatewayapi.GatewayHelper;
 import io.apiman.cli.managerapi.management.factory.GatewayApiFactory;
 import io.apiman.gateway.engine.beans.ApiEndpoint;
 
 /**
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
-@Parameters(commandDescription = "Get an API's endpoint")
-public class EndpointCommand extends AbstractGatewayCommand implements GatewayHelper {
+@Parameters(commandDescription = "Get a Client's endpoint")
+public class ClientEndpointCommand extends AbstractGatewayCommand implements GatewayHelper {
 
     @Parameter(names = "--org", description = "Organization ID", required = true)
     private String orgId;
 
-    @Parameter(names = "--api", description = "API ID", required = true)
-    private String apiId;
+    @Parameter(names = "--client", description = "Client ID", required = true)
+    private String clientId;
 
     @Parameter(names = "--version", description = "API Version", required = true)
     private String version;
@@ -50,7 +50,7 @@ public class EndpointCommand extends AbstractGatewayCommand implements GatewayHe
         statusCheck(gatewayApi, getGatewayConfig().getGatewayApiEndpoint());
         // Get endpoint (if any)
         ApiEndpoint endpoint = callAndCatch(getGatewayConfig().getGatewayApiEndpoint(),
-                () -> gatewayApi.getApiEndpoint(orgId, apiId, version));
+                () -> gatewayApi.getApiEndpoint(orgId, clientId, version));
         // Print to syso
         System.out.println(endpoint.getEndpoint());
     }

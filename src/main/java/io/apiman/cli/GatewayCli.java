@@ -20,7 +20,7 @@ import com.beust.jcommander.Parameters;
 import io.apiman.cli.command.AbstractCommand;
 import io.apiman.cli.command.Command;
 import io.apiman.cli.gatewayapi.declarative.command.GatewayApplyCommand;
-import io.apiman.cli.gatewayapi.command.EndpointCommand;
+import io.apiman.cli.gatewayapi.command.api.ApiEndpointCommand;
 import io.apiman.cli.gatewayapi.command.api.GatewayApiCommand;
 import io.apiman.cli.gatewayapi.command.client.GatewayClientCommand;
 import io.apiman.cli.gatewayapi.command.GatewayOrgCommand;
@@ -43,6 +43,5 @@ public class GatewayCli extends AbstractCommand {
         commandMap.put("organization", GatewayOrgCommand.class);
         commandMap.put("api", GatewayApiCommand.class);
         commandMap.put("client", GatewayClientCommand.class);
-        commandMap.put("endpoint", EndpointCommand.class);
     }
 }
