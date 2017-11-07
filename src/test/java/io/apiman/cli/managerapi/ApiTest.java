@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package io.apiman.cli;
+package io.apiman.cli.managerapi;
 
+import io.apiman.cli.Cli;
 import io.apiman.cli.common.BaseTest;
 import io.apiman.cli.common.IntegrationTest;
 import io.apiman.cli.util.AuthUtil;

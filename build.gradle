@@ -59,6 +59,7 @@ ext {
     version_mockito = '2.8.47'
     version_restassured = '2.9.0'
     version_systemrules = '1.16.0'
+    version_hamcrest = '2.0.0.0'
 }
 
 dependencies {
@@ -88,6 +89,7 @@ dependencies {
     testCompile "org.mockito:mockito-core:$version_mockito"
     testCompile "com.jayway.restassured:rest-assured:$version_restassured"
     testCompile "com.github.stefanbirkner:system-rules:$version_systemrules"
+    testCompile "org.hamcrest:hamcrest-junit:$version_hamcrest"
 }
 
 jar {

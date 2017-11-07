@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package io.apiman.cli;
+package io.apiman.cli.managerapi;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import io.apiman.cli.Cli;
 import io.apiman.cli.common.BaseTest;
 import io.apiman.cli.common.IntegrationTest;
 import io.apiman.cli.managerapi.core.plugin.model.Plugin;

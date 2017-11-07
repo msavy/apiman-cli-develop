@@ -88,6 +88,14 @@ public class MappingUtil {
         }
     }
 
+    public static <T> T readJsonValue(String dataAsString, Class<T> klazz) {
+        try {
+            return JSON_MAPPER.readValue(dataAsString, klazz);
+        } catch (IOException e) {
+            throw new RuntimeException(String.format("Error reading JSON from: %s", dataAsString), e);
+        }
+    }
+
     /**
      * Unmarshall the contents of given URL into an instance of klazz
      *
