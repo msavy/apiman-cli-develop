@@ -56,4 +56,7 @@ public class ListOrgCommand extends AbstractGatewayCommand implements GatewayHel
         this.apiFactory = apiFactory;
     }
 
+    protected boolean permitNoArgs() {
+        return true;
+    }
 }
