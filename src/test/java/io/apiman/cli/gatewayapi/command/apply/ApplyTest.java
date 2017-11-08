@@ -15,16 +15,19 @@
  */
 package io.apiman.cli.gatewayapi.command.apply;
 
+import io.apiman.cli.common.IntegrationTest;
 import io.apiman.cli.gatewayapi.GatewayBaseTest;
 import io.apiman.gateway.engine.beans.Api;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 /**
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
+@Category(IntegrationTest.class)
 public class ApplyTest extends GatewayBaseTest {
 
     @Test

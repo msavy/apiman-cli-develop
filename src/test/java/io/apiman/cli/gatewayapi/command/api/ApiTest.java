@@ -16,10 +16,12 @@
 package io.apiman.cli.gatewayapi.command.api;
 
 import io.apiman.cli.Cli;
+import io.apiman.cli.common.IntegrationTest;
 import io.apiman.cli.gatewayapi.GatewayBaseTest;
 import io.apiman.gateway.engine.beans.Api;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -30,6 +32,7 @@ import static org.hamcrest.core.Is.is;
 /**
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
+@Category(IntegrationTest.class)
 public class ApiTest extends GatewayBaseTest {
 
     /**

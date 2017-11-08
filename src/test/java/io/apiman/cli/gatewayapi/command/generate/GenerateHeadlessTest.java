@@ -17,7 +17,6 @@
 package io.apiman.cli.gatewayapi.command.generate;
 
 import io.apiman.cli.common.BaseTest;
-import io.apiman.cli.common.IntegrationTest;
 import io.apiman.cli.gatewayapi.command.generate.GenerateHeadless.HeadlessConfigBean;
 import io.apiman.cli.util.LogUtil;
 import io.apiman.cli.util.PolicyResolver;
@@ -25,7 +24,6 @@ import io.apiman.gateway.engine.beans.Api;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 
 import java.nio.file.Files;
@@ -42,7 +40,6 @@ import static org.modelmapper.internal.util.Assert.isTrue;
 /**
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
-@Category(IntegrationTest.class)
 public class GenerateHeadlessTest extends BaseTest {
     private static final boolean LOG_DEBUG = true;
 
