@@ -59,8 +59,8 @@ public abstract class AbstractGatewayCommand extends AbstractFinalCommand implem
         VersionHolder remote = new VersionHolder(systemStatus.getVersion());
 
         if (remote.compareTo(local) < 0) {
-            String message = MessageFormat.format("Remote API version {0} does not support this command " +
-                            "available since version {1}.", systemStatus.getVersion(), availableSince);
+            String message = MessageFormat.format("Remote API version {0} does not support this command. " +
+                            "It is available in version {1} or later.", systemStatus.getVersion(), availableSince);
             throw new CommandException(message);
         }
     }
