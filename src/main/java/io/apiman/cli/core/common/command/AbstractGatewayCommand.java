@@ -53,6 +53,7 @@ public abstract class AbstractGatewayCommand extends AbstractFinalCommand implem
 
     protected void versionCheck(String availableSince) {
         GatewayApi gatewayApi = buildGatewayApiClient(apiFactory, getGatewayConfig());
+        statusCheck(gatewayApi, getGatewayConfig().getGatewayApiEndpoint());
         SystemStatus systemStatus = gatewayApi.getSystemStatus();
 
         VersionHolder local = new VersionHolder(availableSince);
