@@ -78,10 +78,11 @@ public abstract class AbstractGatewayCommand extends AbstractFinalCommand implem
         private void parse(String version) {
             if (version.endsWith("-SNAPSHOT")) {
                 isSnapshot = true;
-                version = version.substring(0, version.length() - "-SNAPSHOT".length());
                 LOGGER.debug("A snapshot version is being used, behaviour may be inconsistent.");
             }
-            splitVersion = version.split("\\.");
+            // Remove any character classifiers, should be irrelevant for this. E.g. 3.1.3.Final => 3.1.3
+            String strippedVersion = version.replaceAll("[^\\.\\d]", "");
+            splitVersion = strippedVersion.split("\\.");
         }
 
         int compareTo(VersionHolder otherVersion) {
