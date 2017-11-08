@@ -17,19 +17,88 @@
 package io.apiman.cli.core.common.command;
 
 import com.beust.jcommander.ParametersDelegate;
+import com.google.inject.Inject;
 import io.apiman.cli.command.AbstractFinalCommand;
 import io.apiman.cli.command.GatewayCommon;
+import io.apiman.cli.core.api.GatewayApi;
+import io.apiman.cli.exception.CommandException;
+import io.apiman.cli.gatewayapi.GatewayHelper;
+import io.apiman.cli.managerapi.management.factory.GatewayApiFactory;
+import io.apiman.gateway.engine.beans.SystemStatus;
+
+import java.text.MessageFormat;
 
 /**
  * Common model CRUD functionality.
  *
  * @author Pete Cornish {@literal <outofcoffee@gmail.com>}
  */
-public abstract class AbstractGatewayCommand extends AbstractFinalCommand {
+public abstract class AbstractGatewayCommand extends AbstractFinalCommand implements GatewayHelper {
     @ParametersDelegate
     private GatewayCommon gatewayCommonConfig = new GatewayCommon();
+    private GatewayApiFactory apiFactory;
 
     public GatewayCommon getGatewayConfig() {
         return gatewayCommonConfig;
     }
+
+    @Inject
+    public void setGatewayApiFactory(GatewayApiFactory apiFactory) {
+        this.apiFactory = apiFactory;
+    }
+
+    protected GatewayApiFactory getApiFactory() {
+        return apiFactory;
+    }
+
+    protected void versionCheck(String availableSince) {
+        GatewayApi gatewayApi = buildGatewayApiClient(apiFactory, getGatewayConfig());
+        SystemStatus systemStatus = gatewayApi.getSystemStatus();
+
+        VersionHolder local = new VersionHolder(availableSince);
+        VersionHolder remote = new VersionHolder(systemStatus.getVersion());
+
+        if (remote.compareTo(local) < 0) {
+            String message = MessageFormat.format("Remote API version {0} does not support this command " +
+                            "available since version {1}.", systemStatus.getVersion(), availableSince);
+            throw new CommandException(message);
+        }
+    }
+
+    private static final class VersionHolder {
+        private final String version;
+        private String[] splitVersion;
+        private boolean isSnapshot;
+
+        VersionHolder(String version) {
+            this.version = version;
+            parse(version);
+        }
+
+        private void parse(String version) {
+            if (version.endsWith("-SNAPSHOT")) {
+                isSnapshot = true;
+                version = version.substring(0, version.length() - "-SNAPSHOT".length());
+                LOGGER.debug("A snapshot version is being used, behaviour may be inconsistent.");
+            }
+            splitVersion = version.split("\\.");
+        }
+
+        int compareTo(VersionHolder otherVersion) {
+            String[] otherSplitVersion = otherVersion.splitVersion;
+            int len = Math.min(splitVersion.length, otherSplitVersion.length);
+
+            for (int i = 0; i < len; i++) {
+                if (!splitVersion[i].equalsIgnoreCase(otherSplitVersion[i])) {
+                    return compare(splitVersion[i], otherSplitVersion[i]);
+                }
+            }
+            return Integer.signum(splitVersion.length - otherSplitVersion.length);
+        }
+
+        private int compare(String a, String b) {
+            return Integer.signum(Integer.valueOf(a).compareTo(Integer.valueOf(b)));
+        }
+    }
+
 }

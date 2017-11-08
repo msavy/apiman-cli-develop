@@ -18,12 +18,11 @@ package io.apiman.cli.gatewayapi.command.client;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
-import com.google.inject.Inject;
+import io.apiman.cli.annotations.CommandAvailableSince;
 import io.apiman.cli.core.api.GatewayApi;
 import io.apiman.cli.core.common.command.AbstractGatewayCommand;
-import io.apiman.cli.gatewayapi.GatewayHelper;
 import io.apiman.cli.exception.CommandException;
-import io.apiman.cli.managerapi.management.factory.GatewayApiFactory;
+import io.apiman.cli.gatewayapi.GatewayHelper;
 import io.apiman.cli.util.MappingUtil;
 import io.apiman.gateway.engine.beans.Client;
 import org.apache.logging.log4j.LogManager;
@@ -35,6 +34,7 @@ import java.util.function.Supplier;
 /**
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
+@CommandAvailableSince("1.3.2")
 @Parameters(commandDescription = "Retrieve information about Clients")
 public class ListClientCommand extends AbstractGatewayCommand implements GatewayHelper {
 
@@ -47,12 +47,11 @@ public class ListClientCommand extends AbstractGatewayCommand implements Gateway
     @Parameter(names = "--version", description = "Client Version")
     private String version;
 
-    private GatewayApiFactory apiFactory;
     private Logger LOGGER = LogManager.getLogger(ListClientCommand.class);
 
     @Override
     public void performAction(JCommander parser) throws CommandException {
-        GatewayApi gatewayApi = buildGatewayApiClient(apiFactory, getGatewayConfig());
+        GatewayApi gatewayApi = buildGatewayApiClient(getApiFactory(), getGatewayConfig());
         // Do status check
         statusCheck(gatewayApi, getGatewayConfig().getGatewayApiEndpoint());
 
@@ -78,11 +77,6 @@ public class ListClientCommand extends AbstractGatewayCommand implements Gateway
         // Sort case insensitively
         ids.sort(String::compareToIgnoreCase);
         ids.forEach(System.out::println);
-    }
-
-    @Inject
-    public void setGatewayApiFactory(GatewayApiFactory apiFactory) {
-        this.apiFactory = apiFactory;
     }
 
 }

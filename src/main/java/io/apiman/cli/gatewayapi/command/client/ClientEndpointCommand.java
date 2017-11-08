@@ -18,12 +18,10 @@ package io.apiman.cli.gatewayapi.command.client;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
-import com.google.inject.Inject;
 import io.apiman.cli.core.api.GatewayApi;
 import io.apiman.cli.core.common.command.AbstractGatewayCommand;
 import io.apiman.cli.exception.CommandException;
 import io.apiman.cli.gatewayapi.GatewayHelper;
-import io.apiman.cli.managerapi.management.factory.GatewayApiFactory;
 import io.apiman.gateway.engine.beans.ApiEndpoint;
 
 /**
@@ -41,11 +39,9 @@ public class ClientEndpointCommand extends AbstractGatewayCommand implements Gat
     @Parameter(names = "--version", description = "API Version", required = true)
     private String version;
 
-    private GatewayApiFactory apiFactory;
-
     @Override
     public void performAction(JCommander parser) throws CommandException {
-        GatewayApi gatewayApi = buildGatewayApiClient(apiFactory, getGatewayConfig());
+        GatewayApi gatewayApi = buildGatewayApiClient(getApiFactory(), getGatewayConfig());
         // Do status check
         statusCheck(gatewayApi, getGatewayConfig().getGatewayApiEndpoint());
         // Get endpoint (if any)
@@ -54,11 +50,4 @@ public class ClientEndpointCommand extends AbstractGatewayCommand implements Gat
         // Print to syso
         System.out.println(endpoint.getEndpoint());
     }
-
-    @Inject
-    public void setGatewayApiFactory(GatewayApiFactory apiFactory) {
-        this.apiFactory = apiFactory;
-    }
-
-
 }
