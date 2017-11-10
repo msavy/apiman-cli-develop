@@ -16,6 +16,7 @@
 package io.apiman.cli.gatewayapi.command.generate;
 
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.inject.Inject;
 import io.apiman.cli.core.declarative.command.AbstractApplyCommand;
@@ -42,6 +43,7 @@ import java.util.Optional;
 /**
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
+@Parameters(commandDescription = "Generate config for API Gateway's headless JSON registry")
 public class GenerateHeadless extends AbstractApplyCommand implements GatewayHelper {
     private static final Logger LOGGER = LogManager.getLogger(GenerateHeadless.class);
     private PolicyResolver policyResolver;
