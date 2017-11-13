@@ -22,6 +22,8 @@ import io.apiman.cli.command.Command;
 import java.util.Map;
 
 /**
+ * Operations on API entities.
+ *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
 @Parameters(commandDescription = "Retire and list APIs")

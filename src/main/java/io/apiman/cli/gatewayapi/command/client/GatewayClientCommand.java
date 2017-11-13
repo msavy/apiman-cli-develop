@@ -18,11 +18,12 @@ package io.apiman.cli.gatewayapi.command.client;
 import com.beust.jcommander.Parameters;
 import io.apiman.cli.command.AbstractCommand;
 import io.apiman.cli.command.Command;
-import io.apiman.cli.gatewayapi.command.api.ApiEndpointCommand;
 
 import java.util.Map;
 
 /**
+ * Operations on client entities.
+ *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
 @Parameters(commandDescription = "Retire and list Clients")

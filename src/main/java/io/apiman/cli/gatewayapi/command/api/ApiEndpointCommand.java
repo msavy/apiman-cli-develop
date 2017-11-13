@@ -25,6 +25,8 @@ import io.apiman.cli.gatewayapi.GatewayHelper;
 import io.apiman.gateway.engine.beans.ApiEndpoint;
 
 /**
+ * Get an API's public endpoint.
+ *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
 @Parameters(commandDescription = "Get an API's endpoint")

@@ -32,6 +32,15 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
+ * Retrieve information about Clients
+ *
+ * With arguments:
+ * <ul>
+ *     <li><tt>--org [foo]</tt>: All clients within org [foo]</li>
+ *     <li><tt>--org [foo] --client [bar]</tt>: All versions of client [bar] within org [foo]</li>
+ *     <li><tt>--org [foo] --client [bar] --version [baz]</tt>: Retrieve specific client entity</li>
+ * </ul>
+ *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
 @CommandAvailableSince("1.3.2")

@@ -22,6 +22,8 @@ import io.apiman.cli.command.Command;
 import java.util.Map;
 
 /**
+ * Sub-command for generating gateway configurations
+ *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
 @Parameters(commandDescription = "Generate configurations")

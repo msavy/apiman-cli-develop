@@ -88,6 +88,14 @@ public class MappingUtil {
         }
     }
 
+    /**
+     * Unmarshall the contents of given string into instance of klazz
+     *
+     * @param dataAsString the encoded data
+     * @param klazz the type to unmarshall into
+     * @param <T> the type to unmarshall into
+     * @return the unmarshalled instance of klazz
+     */
     public static <T> T readJsonValue(String dataAsString, Class<T> klazz) {
         try {
             return JSON_MAPPER.readValue(dataAsString, klazz);

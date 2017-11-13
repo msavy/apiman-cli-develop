@@ -26,6 +26,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
+ * Pulls remote gateway API status.
+ *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
 @Parameters(commandDescription = "View Gateway Status")

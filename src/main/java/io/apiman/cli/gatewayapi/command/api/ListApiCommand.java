@@ -32,6 +32,15 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
+ * Retrieve information about APIs.
+ *
+ * With arguments:
+ * <ul>
+ *     <li><tt>--org [foo]</tt>: All APIs within org [foo]</li>
+ *     <li><tt>--org [foo] --api [bar]</tt>: All versions of Api [bar] within org [foo]</li>
+ *     <li><tt>--org [foo] --api [bar] --version [baz]</tt>: Retrieve specific API entity</li>
+ * </ul>
+ *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
 @CommandAvailableSince("1.3.2")

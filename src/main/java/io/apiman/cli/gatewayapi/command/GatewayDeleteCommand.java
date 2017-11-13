@@ -18,6 +18,8 @@ package io.apiman.cli.gatewayapi.command;
 import io.apiman.cli.core.common.command.AbstractGatewayCommand;
 
 /**
+ * Base for gateway delete operations (currently unused).
+ *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
 public abstract class GatewayDeleteCommand extends AbstractGatewayCommand {

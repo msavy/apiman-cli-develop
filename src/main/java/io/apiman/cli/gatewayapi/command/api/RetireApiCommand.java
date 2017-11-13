@@ -24,6 +24,8 @@ import io.apiman.cli.gatewayapi.GatewayHelper;
 import io.apiman.cli.gatewayapi.command.GatewayDeleteCommand;
 
 /**
+ * Retire an API entity.
+ *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
 @Parameters(commandDescription = "Retire an API")

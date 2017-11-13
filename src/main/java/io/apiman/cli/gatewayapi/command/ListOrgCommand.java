@@ -28,6 +28,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 /**
+ * List all Org IDs on gateway.
+ *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
 @CommandAvailableSince("1.3.2")

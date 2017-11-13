@@ -22,6 +22,8 @@ import io.apiman.cli.command.Command;
 import java.util.Map;
 
 /**
+ * Gateway organization commands.
+ *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
 @Parameters(commandDescription = "List Organizations")

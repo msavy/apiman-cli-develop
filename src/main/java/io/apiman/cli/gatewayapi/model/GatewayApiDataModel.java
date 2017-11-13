@@ -47,6 +47,10 @@ import java.util.stream.Stream;
 import static java.util.Optional.ofNullable;
 
 /**
+ * Data model representing the API Gateway(s) - as opposed to the API Manager.
+ *
+ * Currently transforms from the declarative format.
+ *
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
 public class GatewayApiDataModel {

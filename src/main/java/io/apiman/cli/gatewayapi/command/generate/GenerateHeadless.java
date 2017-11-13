@@ -41,6 +41,18 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * Generates config for API Gateway's headless JSON registry.
+ *
+ * For <tt>-o/--outputFile</tt>:
+ * <ul>
+ *  <li>If a file (or new) reference is provided, that will be used (e.g. <tt>-o /tmp/foo.json</tt>)</li>
+ *  <li>If a directory is specified filenames will be inferred and written to the directory. (e.g.<tt>-o /tmp</tt>)</li>
+ *  <li>If multiple configurations are generated, then multiple filenames can be provided and separated with
+ *  commas: (e.g. <tt>-o /tmp/foo.json,/tmp/bar.json</tt>)</li>
+ *  <li>In certain circumstances where a name cannot be inferred one will be procedurally generated</li>
+ * </ul>
+ *
+ * @see GatewayApiDataModel
  * @author Marc Savy {@literal <marc@rhymewithgravy.com>}
  */
 @Parameters(commandDescription = "Generate config for API Gateway's headless JSON registry")
@@ -61,6 +73,11 @@ public class GenerateHeadless extends AbstractApplyCommand implements GatewayHel
         this.policyResolver = policyResolver;
     }
 
+    /**
+     * Set the JSON Writer. Mainly for testing purposes.
+     *
+     * @param jsonWriter the JSON writer implementation
+     */
     public void setJsonWriter(JsonWriter jsonWriter) { this.jsonWriter = jsonWriter; }
 
     @Override
