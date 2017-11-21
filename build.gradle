@@ -15,7 +15,7 @@
  */
 
 group 'io.apiman.cli'
-version '0.2.3'
+version '0.2.4-SNAPSHOT'
 
 buildscript {
     repositories {
@@ -38,10 +38,10 @@ repositories {
 
 compileJava {
     sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
 }
 
 ext {
-    //version_args4j = '2.33'
     version_jcommander = '1.72'
     version_log4j = '2.8.2'
     version_guava = '19.0'
@@ -63,7 +63,6 @@ ext {
 }
 
 dependencies {
-    //compile "args4j:args4j:$version_args4j"
     compile "com.beust:jcommander:$version_jcommander"
     compile "org.apache.logging.log4j:log4j-core:$version_log4j"
     compile "com.google.guava:guava:$version_guava"

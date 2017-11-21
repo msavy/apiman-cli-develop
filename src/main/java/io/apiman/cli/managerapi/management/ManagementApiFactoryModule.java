@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Pete Cornish
+ * Copyright 2017 Pete Cornish
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,13 @@
 
 package io.apiman.cli.managerapi.management;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
+import io.apiman.cli.command.common.ActionApi;
+import io.apiman.cli.management.api.StatusApi;
 import io.apiman.cli.managerapi.core.api.VersionAgnosticApi;
 import io.apiman.cli.managerapi.core.api.factory.Version11XManagementApiFactoryImpl;
 import io.apiman.cli.managerapi.core.api.factory.Version12XManagementApiFactoryImpl;
-import io.apiman.cli.core.common.ActionApi;
 import io.apiman.cli.managerapi.core.common.model.ManagementApiVersion;
 import io.apiman.cli.managerapi.core.gateway.GatewayApi;
 import io.apiman.cli.managerapi.core.org.OrgApi;
@@ -27,9 +30,6 @@ import io.apiman.cli.managerapi.core.plugin.PluginApi;
 import io.apiman.cli.managerapi.management.binding.ManagementApiBindings;
 import io.apiman.cli.managerapi.management.factory.ManagementApiFactory;
 import io.apiman.cli.managerapi.management.factory.SimpleManagementApiFactoryImpl;
-
-import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
 
 /**
  * Bindings for Management API factories.
@@ -39,6 +39,10 @@ import com.google.inject.Singleton;
 public class ManagementApiFactoryModule extends AbstractModule {
     @Override
     protected void configure() {
+        bind(ManagementApiFactory.class)
+                .annotatedWith(ManagementApiBindings.boundTo(StatusApi.class))
+                .toInstance(new SimpleManagementApiFactoryImpl<>(StatusApi.class));
+
         bind(ManagementApiFactory.class)
                 .annotatedWith(ManagementApiBindings.boundTo(GatewayApi.class))
                 .toInstance(new SimpleManagementApiFactoryImpl<>(GatewayApi.class));

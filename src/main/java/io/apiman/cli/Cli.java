@@ -1,11 +1,11 @@
 /*
- * Copyright 2016 Pete Cornish
+ * Copyright 2017 Pete Cornish
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,10 +20,11 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
 import com.google.common.collect.Lists;
-import io.apiman.cli.command.AbstractCommand;
-import io.apiman.cli.command.Command;
+import io.apiman.cli.command.core.AbstractCommand;
+import io.apiman.cli.command.core.Command;
 import io.apiman.cli.exception.CommandException;
 import io.apiman.cli.exception.ExitWithCodeException;
+import io.apiman.cli.util.InjectionUtil;
 import io.apiman.cli.util.LogUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -71,14 +72,13 @@ public class Cli extends AbstractCommand {
         }
     }
 
-    public static void main(String... args) {
-        Cli cli = new Cli();
-        cli.run(Lists.newArrayList(args), new JCommander());
-    }
-
     @Override
     protected void populateCommands(Map<String, Class<? extends Command>> commandMap) {
         commandMap.put("manager", ManagerCli.class);
         commandMap.put("gateway", GatewayCli.class);
+    }
+
+    public static void main(String... args) {
+        InjectionUtil.getInjector().getInstance(Cli.class).run(Lists.newArrayList(args), new JCommander());
     }
 }
