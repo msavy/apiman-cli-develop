@@ -19,9 +19,9 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.inject.Inject;
+import io.apiman.cli.command.declarative.command.AbstractApplyCommand;
+import io.apiman.cli.command.declarative.model.BaseDeclaration;
 import io.apiman.cli.command.declarative.model.DeclarativeGateway;
-import io.apiman.cli.core.declarative.command.AbstractApplyCommand;
-import io.apiman.cli.core.declarative.model.BaseDeclaration;
 import io.apiman.cli.gatewayapi.GatewayHelper;
 import io.apiman.cli.gatewayapi.model.GatewayApiDataModel;
 import io.apiman.cli.util.MappingUtil;
@@ -67,6 +67,10 @@ public class GenerateHeadless extends AbstractApplyCommand implements GatewayHel
 
     @Parameter(names = {"--stdout"}, description = "Output definition to STDOUT (implied if no outputFile is specified)")
     protected boolean useStdout = false;
+
+    public GenerateHeadless() {
+        super();
+    }
 
     @Inject
     public void setPolicyResolver(PolicyResolver policyResolver) {

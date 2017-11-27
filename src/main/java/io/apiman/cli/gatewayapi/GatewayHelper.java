@@ -16,10 +16,7 @@
 
 package io.apiman.cli.gatewayapi;
 
-import io.apiman.cli.command.GatewayCommon;
-import io.apiman.cli.core.api.GatewayApi;
 import io.apiman.cli.exception.CommandException;
-import io.apiman.cli.managerapi.management.factory.GatewayApiFactory;
 import io.apiman.gateway.api.rest.contract.exceptions.GatewayApiErrorBean;
 import io.apiman.gateway.engine.beans.SystemStatus;
 import org.apache.logging.log4j.LogManager;
@@ -35,19 +32,10 @@ import static java.text.MessageFormat.format;
  */
 public interface GatewayHelper {
     Logger LOGGER = LogManager.getLogger(GatewayHelper.class);
-
-    boolean getLogDebug();
-
-    default GatewayApi buildGatewayApiClient(GatewayApiFactory apiFactory, GatewayCommon gatewayConfig) {
-        return apiFactory.build(
-                gatewayConfig.getGatewayApiEndpoint(),
-                gatewayConfig.getGatewayApiUsername(),
-                gatewayConfig.getGatewayApiPassword(),
-                getLogDebug());
-    }
+    long STATUS_CHECK_INTERVAL = 1000;
 
     default boolean statusCheck(GatewayApi client, String endpoint) {
-        SystemStatus status = callAndCatch(endpoint, () -> client.getSystemStatus());
+        SystemStatus status = callAndCatch(client::getSystemStatus);
         LOGGER.debug("Gateway status: {}", status);
         if (!status.isUp()) {
             throw new StatusCheckException(endpoint, "Status indicates gateway is currently down");
@@ -55,10 +43,11 @@ public interface GatewayHelper {
         return status.isUp();
     }
 
-    default <T> T callAndCatch(String endpoint, Supplier<T> action) {
+    default <T> T callAndCatch(Supplier<T> action) {
         try {
             return action.get();
         } catch(RetrofitError e) {
+            String endpoint = e.getUrl();
             LOGGER.debug("Endpoint: {}, RetrofitError: {}", endpoint, e);
             switch (e.getKind()) {
                 case NETWORK:
@@ -71,7 +60,7 @@ public interface GatewayHelper {
 
                     try {
                         errorBean = (GatewayApiErrorBean) e.getBodyAs(GatewayApiErrorBean.class);
-                    } catch (Exception f) {}
+                    } catch (Exception ignored) {}
 
                     // If the error body was an GatewayApiErrorBean
                     if (errorBean != null) {
@@ -94,9 +83,36 @@ public interface GatewayHelper {
         }
     }
 
+    default void waitForServer(GatewayApi apiClient, int waitTime) {
+        if (waitTime == 0) {
+            return;
+        }
+
+        LOGGER.info("Waiting {} seconds for server to start...", waitTime);
+
+        final long start = System.currentTimeMillis();
+        while (true) {
+            if (System.currentTimeMillis() - start > waitTime * 1000) {
+                throw new CommandException("Timed out after " + waitTime + " seconds waiting for server to start");
+            }
+
+            try {
+                final SystemStatus response = apiClient.getSystemStatus();
+                if (response.isUp()) {
+                    LOGGER.info("Server started");
+                    break;
+                }
+            } catch (RetrofitError rfe) {
+                try {
+                    Thread.sleep(STATUS_CHECK_INTERVAL);
+                } catch (InterruptedException ignored) {}
+            }
+        }
+    }
+
     class StatusCheckException extends CommandException {
 
-        public StatusCheckException(String endpoint, String message) {
+        StatusCheckException(String endpoint, String message) {
             super(format("Status check failed on gateway {0}. {1}",
                     endpoint,
                     message));
